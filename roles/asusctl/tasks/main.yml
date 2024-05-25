@@ -1,0 +1,12 @@
+- name: Install asusctl and power-profiles-daemon
+  pacman:
+    name:
+      - asusctl
+      - power-profiles-daemon
+    state: present
+
+- name: Enable and start power-profiles-daemon service
+  systemd:
+    name: power-profiles-daemon.service
+    state: started
+    enabled: yes

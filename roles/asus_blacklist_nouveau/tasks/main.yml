@@ -1,0 +1,5 @@
+- name: Blacklist nouveau module
+  lineinfile:
+    path: /etc/modprobe.d/blacklist.conf
+    line: blacklist nouveau
+    create: yes

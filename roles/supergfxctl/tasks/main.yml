@@ -1,0 +1,15 @@
+- name: Install supergfxctl and switcheroo-control
+  pacman:
+    name:
+      - supergfxctl
+      - switcheroo-control
+    state: present
+
+- name: Enable and start supergfxd and switcheroo-control services
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop:
+    - supergfxd
+    - switcheroo-control

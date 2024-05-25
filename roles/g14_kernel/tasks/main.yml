@@ -1,0 +1,9 @@
+- name: Install custom G14 kernel and headers
+  pacman:
+    name:
+      - linux-g14
+      - linux-g14-headers
+    state: present
+
+- name: Regenerate GRUB boot menu
+  command: grub-mkconfig -o /boot/grub/grub.cfg

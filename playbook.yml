@@ -97,6 +97,12 @@
     - { role: oomd, tags: ['oomd'] }
     - { role: f3, tags: ['f3'] }
     - { role: vopono, tags: ['vopono'] }
+    - { role: asus_blacklist_nouveau, tags: ['asus', 'blacklist_nouveau'] }
+    - { role: asus_repo, tags: ['asus', 'repo'] }
+    - { role: asusctl, tags: ['asus', 'asusctl'] }
+    - { role: supergfxctl, tags: ['asus', 'supergfxctl'] }
+    - { role: rog_control_center, tags: ['asus', 'rog_control_center'] }
+    - { role: custom_kernel, tags: ['asus', 'custom_kernel'] }
   vars_prompt:
     - name: user_password
       prompt: "Enter desired user password"

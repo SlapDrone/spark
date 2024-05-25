@@ -1,0 +1,41 @@
+Vagrant.configure("2") do |config|
+  # Specify the base box for the Vagrant VM
+  config.vm.box = "archlinux/archlinux"
+
+  # Configure the VirtualBox provider settings
+  config.vm.provider "virtualbox" do |vb|
+    # Allocate 4GB of memory to the VM
+    vb.memory = "4096"
+    # Allocate 2 CPUs to the VM
+    vb.cpus = "2"
+    # Allocate 128MB of video memory to the VM
+    vb.customize ["modifyvm", :id, "--vram", "128"]
+  end
+
+  # Sync the parent directory (playbook dir) to "/vagrant" in the VM
+  config.vm.synced_folder "../", "/vagrant", type: "rsync", rsync__auto: "true"
+
+  # Provision the VM using Ansible
+  config.vm.provision "ansible_local" do |ansible|
+    # Enable verbose output for Ansible
+    ansible.verbose = "v"
+    # Specify the playbook file to run
+    ansible.playbook = "/vagrant/playbook.yml"
+    # Set extra variables for Ansible
+    ansible.extra_vars = {
+      # Set the username for the VM user
+      user_name: "vagrant",
+      # Set the password for the VM user
+      user_password: "vagrant",
+      # Configure the dotfiles repository
+      dotfiles: {
+        # Set the URL of your dotfiles repository
+        url: "https://github.com/SlapDrone/dotfiles.git",
+        # Set the destination directory for the cloned repository
+        destination: "projects/dotfiles",
+        # Set the flags for the `rcup` command (part of `rcm` tool)
+        rcup_flags: "-fx README.md"
+      }
+    }
+  end
+end

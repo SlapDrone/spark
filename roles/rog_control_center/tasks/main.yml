@@ -1,0 +1,4 @@
+- name: Install ROG Control Center
+  pacman:
+    name: rog-control-center
+    state: present

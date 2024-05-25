@@ -70,9 +70,14 @@ Optionally edit the mirror list.
 
     $ vi /etc/pacman.d/mirrorlist
 
-Install the base system.
+Install the base system. On a desktop or non-ASUS laptop:
 
     $ pacstrap -i /mnt base base-devel linux linux-firmware lvm2 dhcpcd net-tools wireless_tools dialog wpa_supplicant efibootmgr vi git grub ansible
+
+For the newer models in the ASUS Zephyrus laptop range, use the custom kernel:
+
+    
+    $ pacstrap -i /mnt base base-devel linux-g14 linux-g14-headers linux-firmware lvm2 dhcpcd net-tools wireless_tools dialog wpa_supplicant efibootmgr vi git grub ansible
 
 Generate and verify fstab.
 
