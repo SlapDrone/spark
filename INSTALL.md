@@ -74,11 +74,6 @@ Install the base system. On a desktop or non-ASUS laptop:
 
     $ pacstrap -i /mnt base base-devel linux linux-firmware lvm2 dhcpcd net-tools wireless_tools dialog wpa_supplicant efibootmgr vi git grub ansible
 
-For the newer models in the ASUS Zephyrus laptop range, use the custom kernel:
-
-    
-    $ pacstrap -i /mnt base base-devel linux-g14 linux-g14-headers linux-firmware lvm2 dhcpcd net-tools wireless_tools dialog wpa_supplicant efibootmgr vi git grub ansible
-
 Generate and verify fstab.
 
     $ genfstab -U -p /mnt >> /mnt/etc/fstab
@@ -131,6 +126,13 @@ Cleanup and reboot!
 
 Run ansible!
 
+On the G14:
+
+```sh
+ansible-playbook playbook.yml --skip-tags "hardened"
+```
+
+[Original instructions from asus-linux.org are here](./asus-linux-arch-guide.md).
 
 [1]: https://www.archlinux.org/
 [2]: https://wiki.archlinux.org/index.php/Installation_guide
