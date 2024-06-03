@@ -1,0 +1,40 @@
+---
+# tasks file for poetry role
+- name: Download Poetry installer
+  become: false
+  ansible.builtin.get_url:
+    url: https://install.python-poetry.org
+    dest: "/home/{{ user.name }}/install-poetry.py"
+    mode: '0755'
+
+- name: Install Poetry
+  become: false
+  ansible.builtin.command: "python3 /home/{{ user.name }}/install-poetry.py"
+  args:
+    creates: "/home/{{ user.name }}/.local/share/pypoetry/venv/bin/poetry"
+  environment:
+    POETRY_HOME: "/home/{{ user.name }}/.poetry"
+
+- name: Add Poetry to PATH
+  become: false
+  ansible.builtin.lineinfile:
+    path: "/home/{{ user.name }}/.zshrc"
+    line: 'export PATH="$HOME/.poetry/bin:$PATH"'
+    create: yes
+    state: present
+    insertafter: EOF
+
+- name: Add Poetry to PATH (for users with bash as well)
+  become: false
+  ansible.builtin.lineinfile:
+    path: "/home/{{ user.name }}/.bashrc"
+    line: 'export PATH="$HOME/.poetry/bin:$PATH"'
+    create: yes
+    state: present
+    insertafter: EOF
+
+- name: Remove Poetry installer
+  become: false
+  ansible.builtin.file:
+    path: "/home/{{ user.name }}/install-poetry.py"
+    state: absent

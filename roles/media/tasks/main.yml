@@ -34,7 +34,7 @@
 
 - name: Install youtube-dl
   pacman:
-    name: youtube-dl
+    name: yt-dlp
     state: present
 
 - name: Install zbar

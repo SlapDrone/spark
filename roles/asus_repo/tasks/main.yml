@@ -1,8 +1,15 @@
 ---
-- name: Add G14 repo sign key
-  community.general.pacman_key:
-    id: 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35
-    state: present
+- name: receive G14 repo sign key
+  command: pacman-key --recv-keys 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35
+
+- name: verify fingerprint
+  command: pacman-key --finger 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35
+
+- name: locally sign
+  command: pacman-key --lsign-key 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35
+
+- name: verify again 
+  command: pacman-key --finger 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35
 
 - name: Add G14 repo to pacman.conf
   blockinfile:

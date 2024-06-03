@@ -17,12 +17,12 @@
   tags:
     - aur
 
-- name: Install WordNet database
-  aur:
-    name: dict-wn
-    user: "{{ user.name }}"
-  tags:
-    - aur
+  #- name: Install WordNet database
+  #aur:
+  # name: dict-wn
+  # user: "{{ user.name }}"
+  #tags:
+  #  - aur
 
 - name: Install Moby thesaurus
   aur:

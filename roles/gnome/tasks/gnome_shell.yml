@@ -13,5 +13,10 @@
   pacman:
     name:
       - gnome-shell-extensions
-      - chrome-gnome-shell
+    #      - chrome-gnome-shell
     state: "{{ 'present' if gnome.gnome_shell.extensions_support else 'absent' }}"
+
+- name: install chrome gnome shell
+  aur:
+    name: chrome-gnome-shell
+    user: "{{ user.name }}"

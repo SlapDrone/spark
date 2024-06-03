@@ -9,7 +9,7 @@
   file: path={{ postgresql.root }}/data state=directory owner=postgres group=postgres
 
 - name: Initialize database cluster
-  command: initdb --locale en_US.UTF-8 -E UTF8 -D {{ postgresql.root }}/data creates={{ postgresql.root }}/data/postgresql.conf
+  command: initdb --locale en_GB.utf8 -E UTF8 -D {{ postgresql.root }}/data creates={{ postgresql.root }}/data/postgresql.conf
   become: yes
   become_user: postgres
 

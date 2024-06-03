@@ -103,6 +103,8 @@
     - { role: supergfxctl, tags: ['asus', 'supergfxctl'] }
     - { role: rog_control_center, tags: ['asus', 'rog_control_center'] }
     - { role: custom_kernel, tags: ['asus', 'custom_kernel'] }
+    - { role: pyenv, tags: ['pyenv'] }
+    - { role: poetry, tags: ['poetry'] }
   vars_prompt:
     - name: user_password
       prompt: "Enter desired user password"
