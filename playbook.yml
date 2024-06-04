@@ -105,6 +105,7 @@
     - { role: custom_kernel, tags: ['asus', 'custom_kernel'] }
     - { role: pyenv, tags: ['pyenv'] }
     - { role: poetry, tags: ['poetry'] }
+    - { role: oh-my-zsh-p10k, tags: ['oh-my-zsh'] }
   vars_prompt:
     - name: user_password
       prompt: "Enter desired user password"

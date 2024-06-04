@@ -47,6 +47,38 @@
     create: yes
     state: present
     insertafter: EOF
+
+- name: Add pyenv init and configuration to zsh profile
+  become: false
+  ansible.builtin.blockinfile:
+    path: "/home/{{ user.name }}/.zprofile"
+    block: |
+      export PYENV_ROOT="/home/{{ user.name }}/.pyenv"
+      command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+      if command -v pyenv >/dev/null; then
+        eval "$(pyenv init --path)"
+        eval "$(pyenv init -)"
+      fi
+      export PYTHON_BUILD_ARIA2_OPTS="-d $PYENV_ROOT/cache" 
+    create: yes
+    state: present
+    insertafter: EOF
+
+- name: Add pyenv init and configuration to bash profile (for users with bash as well)
+  become: false
+  ansible.builtin.blockinfile:
+    path: "/home/{{ user.name }}/.profile"
+    block: |
+      export PYENV_ROOT="/home/{{ user.name }}/.pyenv"
+      export PATH="$PYENV_ROOT/bin:$PATH"
+      if command -v pyenv >/dev/null; then
+        eval "$(pyenv init --path)"
+      fi
+    create: yes
+    state: present
+    insertafter: EOF
+
+
 - name: Ensure zsh is the default shell
   become: true
   ansible.builtin.user:
