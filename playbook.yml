@@ -109,6 +109,9 @@
     - { role: kitty, tags: ['kitty']}
     - { role: nvidia, tags: ['nvidia']}
     - { role: docker, tags: ['docker']}
+    - { role: discord, tags: ['discord']}
+    - { role: keychain, tags: ['keychain']}
+    - { role: thunderbird, tags: ['thunderbird']}
   vars_prompt:
     - name: user_password
       prompt: "Enter desired user password"

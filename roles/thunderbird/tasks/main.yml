@@ -1,0 +1,7 @@
+---
+- name: Install thunderbird e-mail client 
+  pacman:
+    name:
+      - thunderbird
+    state: present
+
