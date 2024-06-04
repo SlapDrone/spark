@@ -26,6 +26,10 @@ Second, install and update the submodules:
 
     $ git submodule init && git submodule update
     
+Install the required collections:
+
+    $ ansible-galaxy collection install -r requirements.yml
+
 Run the playbook as root.
 
     # ansible-playbook -i localhost playbook.yml

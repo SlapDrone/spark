@@ -107,6 +107,8 @@
     - { role: poetry, tags: ['poetry'] }
     - { role: oh-my-zsh-p10k, tags: ['oh-my-zsh'] }
     - { role: kitty, tags: ['kitty']}
+    - { role: nvidia, tags: ['nvidia']}
+    - { role: docker, tags: ['docker']}
   vars_prompt:
     - name: user_password
       prompt: "Enter desired user password"
