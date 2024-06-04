@@ -1,0 +1,78 @@
+---
+# tasks file for oh_my_zsh
+- name: Install required packages
+  pacman:
+    state: present
+    name:
+      - git
+      - zsh
+      - curl
+
+- name: Install ttf-meslo-nerd-font-powerlevel10k from AUR
+  aur:
+    name: ttf-meslo-nerd-font-powerlevel10k
+    user: "{{ user.name }}"
+
+- name: Install Oh My Zsh
+  ansible.builtin.shell: HOME=/home/{{ user.name }} sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  args:
+    creates: "/home/{{ user.name }}/.oh-my-zsh"
+  become: true
+  become_user: "{{ user.name }}"
+
+- name: Install Oh My Zsh plugins
+  ansible.builtin.git:
+    repo: "https://github.com/{{ item.user }}/{{ item.repo }}"
+    dest: "/home/{{ user.name }}/.oh-my-zsh/custom/plugins/{{ item.name }}"
+    depth: 1
+  become: true
+  become_user: "{{ user.name }}"
+  with_items:
+    - { user: 'zsh-users', repo: 'zsh-autosuggestions', name: 'zsh-autosuggestions' }
+    - { user: 'zsh-users', repo: 'zsh-syntax-highlighting', name: 'zsh-syntax-highlighting' }
+    - { user: 'zsh-users', repo: 'zsh-completions', name: 'zsh-completions' }
+    - { user: 'zsh-users', repo: 'zsh-history-substring-search', name: 'zsh-history-substring-search' }
+    - { user: 'davidparsson', repo: 'zsh-pyenv-lazy', name: 'pyenv' }
+    - { user: 'lukechilds', repo: 'zsh-nvm', name: 'zsh-nvm' }
+    #- { user: 'johnpc', repo: 'zsh-cargo-completion', name: 'cargo' }
+    - { user: 'darvid', repo: 'zsh-poetry', name: 'poetry' }
+    - { user: 'ohmyzsh', repo: 'ohmyzsh', name: 'docker', path: 'plugins/docker' }
+    - { user: 'ohmyzsh', repo: 'ohmyzsh', name: 'docker-compose', path: 'plugins/docker-compose' }
+
+- name: Install Powerlevel10k theme
+  ansible.builtin.git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: "/home/{{ user.name }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    depth: 1
+  become: true
+  become_user: "{{ user.name }}"
+
+- name: Change ownership and permissions of .zshrc
+  ansible.builtin.file:
+    path: "/home/{{ user.name }}/.zshrc"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+    mode: '0644'
+  become: true
+
+- name: Set ZSH_THEME in .zshrc
+  ansible.builtin.lineinfile:
+    path: "/home/{{ user.name }}/.zshrc"
+    regexp: '^ZSH_THEME='
+    line: 'ZSH_THEME="powerlevel10k/powerlevel10k"'
+  become: true
+  become_user: "{{ user.name }}"
+
+- name: Set plugins in .zshrc
+  ansible.builtin.lineinfile:
+    path: "/home/{{ user.name }}/.zshrc"
+    regexp: '^plugins='
+    line: 'plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-completions zsh-history-substring-search pyenv zsh-nvm poetry docker docker-compose)'
+  become: true
+  become_user: "{{ user.name }}"
+
+- name: Set zsh as the default shell for the user
+  become: true
+  ansible.builtin.user:
+    name: "{{ user.name }}"
+    shell: /bin/zsh

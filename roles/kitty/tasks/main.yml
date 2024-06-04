@@ -1,0 +1,6 @@
+---
+- name: Install kitty terminal emulator
+  pacman:
+    name:
+      - kitty
+    state: present

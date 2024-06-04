@@ -1,0 +1,25 @@
+# Alacritty Configuration File
+# For more configuration options, please refer to the following documents:
+#   - https://github.com/alacritty/alacritty/blob/master/alacritty.yml
+#   - https://alacritty.github.io/
+
+[window]
+padding = { x = 2, y = 2 }
+decorations = "full"
+startup_mode = "Windowed"
+
+# Key bindings
+[[keyboard.bindings]]
+key = "N"
+mods = "Control|Shift"
+action = "SpawnNewInstance" # New window
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[font]
+normal = { family = "monospace", style = "Regular" }
+size = 11.0
+
+
