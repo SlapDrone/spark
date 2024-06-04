@@ -3,3 +3,18 @@
   pacman:
     name: alacritty
     state: present
+
+- name: Ensure Alacritty config directory exists
+  file:
+    path: "/home/{{ user.name }}/.config/alacritty"
+    state: directory
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+
+- name: Copy Alacritty configuration file
+  template:
+    src: alacritty.toml.j2
+    dest: "/home/{{ user.name }}/.config/alacritty/alacritty.toml"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+
