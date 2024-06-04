@@ -4,3 +4,10 @@
     name:
       - kitty
     state: present
+
+- name: Copy kitty configuration file
+  template:
+    src: kitty.conf.j2
+    dest: "/home/{{ user.name }}/.config/kitty/kitty.conf"
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
