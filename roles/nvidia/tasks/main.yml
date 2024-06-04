@@ -1,0 +1,9 @@
+---
+- name: Install NVIDIA DKMS drivers
+  pacman:
+    name:
+      - dkms
+      - nvidia-dkms
+      #- nvidia-utils
+    state: present
+  
