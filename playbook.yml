@@ -116,6 +116,7 @@
     - { role: joplin, tags: ['joplin']}
     - { role: cudnn, tags: ['cudnn']}
     - { role: rust, tags: ['rust']}
+    - { role: plasma, tags: ['plasma']}
   vars_prompt:
     - name: user_password
       prompt: "Enter desired user password"
