@@ -1,0 +1,29 @@
+---
+- name: Ensure required packages are installed
+  pacman:
+    name: 
+      - curl
+      - rustup
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: Ensure ~/.cargo/bin is in PATH
+  lineinfile:
+    path: "{{ item }}"
+    line: 'export PATH="$HOME/.cargo/bin:$PATH"'
+    create: yes
+    state: present
+  with_items:
+    - "/home/{{ user.name }}/.zshrc"
+    - "/home/{{ user.name }}/.zprofile"
+    - "/home/{{ user.name }}/.profile"
+    - "/home/{{ user.name }}/.bashrc"
+  become: yes
+
+- name: Run rustup default stable
+  ansible.builtin.shell: >
+    source /etc/profile && rustup default stable
+  # become: yes
+  # become_user: "{{ user.name }}"
+

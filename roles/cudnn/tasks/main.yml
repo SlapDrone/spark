@@ -1,0 +1,5 @@
+---
+- name: install cudnn
+  pacman:
+    name: cudnn
+    state: present
