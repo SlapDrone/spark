@@ -4,6 +4,8 @@
     name: 
       - sddm
       - sddm-kcm
+      - dolphin
+      - xorg-xeyes
     state: present
 
 - name: Install KDE Plasma 6
