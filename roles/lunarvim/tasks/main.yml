@@ -1,0 +1,21 @@
+---
+- name: Ensure required packages are installed
+  pacman:
+    name: 
+      - git
+      - curl
+      - base-devel
+      - neovim
+    state: present
+    update_cache: yes
+
+- name: Download LunarVim installer script
+  get_url:
+    url: https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh
+    dest: /tmp/lunarvim_install.sh
+    mode: '0755'
+
+- name: Run LunarVim installer script
+  command: bash /tmp/lunarvim_install.sh
+  args:
+    creates: /usr/local/bin/lvim

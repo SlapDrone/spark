@@ -1,0 +1,10 @@
+---
+- name: Install joplin
+  become: true
+  become_user: "{{ user.name }}"
+  aur:
+    name: joplin-desktop
+    user: "{{ user.name }}"
+  tags:
+    - aur
+

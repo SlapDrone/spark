@@ -1,9 +1,22 @@
 ---
-- name: Install NVIDIA DKMS drivers
+- name: Ensure base-devel package group is installed
   pacman:
-    name:
-      - dkms
-      - nvidia-dkms
-      #- nvidia-utils
+    name: base-devel
     state: present
-  
+  become: yes
+
+- name: Clone nvidia-all repository
+  git:
+    repo: 'https://github.com/Frogging-Family/nvidia-all.git'
+    dest: "/home/{{ user.name }}/nvidia-all"
+    update: no
+
+- name: Build and install the nvidia-all package
+  ansible.builtin.expect:
+    command: makepkg -si
+    chdir: "/home/{{ user.name }}/nvidia-all"
+    responses:
+      'Which driver version do you want\?': '2\n'
+      'Build the dkms package or the regular one\?': '1\n'
+      'Do you want to use it instead of the proprietary one\?\s*N/y\s*:': 'N\n'
+  become: yes 
