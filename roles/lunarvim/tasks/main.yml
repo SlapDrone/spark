@@ -6,6 +6,7 @@
       - curl
       - base-devel
       - neovim
+      - wl-clipboard
     state: present
     update_cache: yes
   become: yes
