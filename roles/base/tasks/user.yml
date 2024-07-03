@@ -7,6 +7,11 @@
   tags:
     - user
 
+- name: install passlib
+  pacman:
+      name: python-passlib
+      state: present
+
 - name: Create user and assign to group
   user:
     name: "{{ user.name }}"
@@ -29,6 +34,7 @@
   when: user.log.dir is defined
   tags:
     - user
+
 
 - name: Install logrotate
   pacman:

@@ -9,7 +9,7 @@ user:
         dir: log
         rotate: 8
 
-hostname: nous
+hostname: zeppeke
 
 interception:
     caps2esc:
@@ -93,6 +93,7 @@ base_packages:
     - fzf
 #   - cpulimit
     - vivid
+    - python-passlib
 
 filesystem_packages:
     - dosfstools
