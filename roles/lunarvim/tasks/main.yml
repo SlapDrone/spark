@@ -1,0 +1,49 @@
+---
+- name: Ensure required packages are installed
+  pacman:
+    name: 
+      - git
+      - curl
+      - base-devel
+      - neovim
+    state: present
+    update_cache: yes
+  become: yes
+  become_user: "{{ user.name }}"
+
+- name: Download LunarVim installer script
+  get_url:
+    url: https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh
+    dest: "/home/{{ user.name }}/lunarvim_install.sh"
+    mode: '0755'
+  become: yes
+
+- name: Run LunarVim installer script with expect
+  ansible.builtin.expect:
+    command: bash /home/{{ user.name }}/lunarvim_install.sh
+    responses:
+        'Would you like to install LunarVim''s NodeJS/BunJS dependencies: neovim, tree-sitter-cli?\s*\[y\]es or \[n\]o \(default: no\) :': 'y\n'
+  args:
+    creates: "/home/{{ user.name }}/.local/bin/lvim"
+  become: yes
+
+- name: Ensure ~/.local/bin is in PATH
+  lineinfile:
+    path: "{{ item }}"
+    line: 'export PATH="$HOME/.local/bin:$PATH"'
+    create: yes
+    state: present
+  with_items:
+    - "/home/{{ user.name }}/.zshrc"
+    - "/home/{{ user.name }}/.zprofile"
+    - "/home/{{ user.name }}/.profile"
+    - "/home/{{ user.name }}/.bashrc"
+  become: yes
+
+- name: Clean up LunarVim installer script
+  file:
+    path: "/home/{{ user.name }}/lunarvim_install.sh"
+    state: absent
+  when: "'/home/{{ user.name }}/.local/bin/lvim' in ansible_facts['cmdline']['creates']"
+  become: yes
+

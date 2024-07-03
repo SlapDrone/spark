@@ -1,0 +1,26 @@
+---
+- name: Install SDDM
+  pacman:
+    name: 
+      - sddm
+      - sddm-kcm
+      - dolphin
+      - xorg-xeyes
+    state: present
+
+- name: Install KDE Plasma 6
+  pacman:
+    name: plasma-meta
+    state: present
+
+- name: Disable GDM service
+  systemd:
+    name: gdm.service
+    enabled: no
+    state: stopped
+
+- name: Enable SDDM service
+  systemd:
+    name: sddm.service
+    enabled: yes
+    state: started
