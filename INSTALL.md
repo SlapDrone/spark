@@ -72,7 +72,7 @@ Optionally edit the mirror list.
 
 Install the base system. On a desktop or non-ASUS laptop:
 
-    $ pacstrap -i /mnt base base-devel linux linux-firmware lvm2 dhcpcd net-tools wireless_tools dialog wpa_supplicant efibootmgr vi git grub ansible
+    $ pacstrap -i /mnt base base-devel linux linux-headers linux-firmware lvm2 dhcpcd iwd net-tools wireless_tools dialog wpa_supplicant efibootmgr vim git grub ansible curl wget sudo croc
 
 Generate and verify fstab.
 
@@ -81,20 +81,39 @@ Generate and verify fstab.
 
 Change root into the base install and perform base configuration tasks.
 
+    # Change root into the base install
     $ arch-chroot /mnt /bin/bash
-    $ ln -s /usr/share/i18n/locales/en_DK /usr/share/i18n/locales/en_SE
-    $ export LANG=en_US.UTF-8
-    $ export TIME=en_SE.UTF-8
+
+    # Set up locales
+    $ export LANG=en_GB.UTF-8
+    $ export TIME=en_GB.UTF-8
     $ echo $LANG UTF-8 >> /etc/locale.gen
-    $ echo $TIME UTF-8 >> /etc/locale.gen
+    $ echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+    $ echo "nl_BE.UTF-8 UTF-8" >> /etc/locale.gen
     $ locale-gen
+
+    # Configure locale settings
     $ echo LANG=$LANG > /etc/locale.conf
     $ echo LC_TIME=$TIME >> /etc/locale.conf
-    $ ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
+
+    # Set timezone
+    $ ln -fs /usr/share/zoneinfo/Europe/Brussels /etc/localtime
+
+    # Set hardware clock
     $ hwclock --systohc --utc
+
+    # Set hostname (replace 'mymachine' with your preferred hostname)
     $ echo mymachine > /etc/hostname
+
+    # Enable network service
     $ systemctl enable dhcpcd.service
+
+    # Set root password
     $ passwd
+
+    # Set up keyboard layouts
+    $ echo "KEYMAP=uk" > /etc/vconsole.conf
+    $ echo "KEYMAP_TOGGLE=be-latin1" >> /etc/vconsole.conf
 
 Set your mkinitcpio encrypt/lvm2 hooks.
 
