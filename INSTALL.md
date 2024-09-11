@@ -19,6 +19,8 @@ If your console font is tiny ([HiDPI][5] systems), set a new font.
 
 Connect to the Internet.
 
+    $ iwctl station wlan0 connect your_network_name_here
+
 Verify that the system clock is up to date.
 
     $ timedatectl set-ntp true
