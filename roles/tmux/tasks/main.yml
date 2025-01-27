@@ -26,3 +26,12 @@
     user: "{{ user.name }}"
   tags:
     - aur
+
+- name: Add appropriate line to tmux conf
+  become: false
+  ansible.builtin.lineinfile:
+    path: "/home/{{ user.name }}/.tmux.conf"
+    line: run '/usr/share/tmux-plugin-manager/tpm'
+    create: yes
+    state: present
+    insertafter: EOF
