@@ -27,11 +27,29 @@
   tags:
     - aur
 
-- name: Add appropriate line to tmux conf
-  become: false
-  ansible.builtin.lineinfile:
-    path: "/home/{{ user.name }}/.tmux.conf"
-    line: run '/usr/share/tmux-plugin-manager/tpm'
-    create: yes
-    state: present
-    insertafter: EOF
+- name: Ensure ~/.config/tmux directory exists
+  file:
+    path: "{{ user.home }}/.config/tmux"
+    state: directory
+    mode: '0755'
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+
+- name: Symlink tmux config files to ~/.config/tmux
+  file:
+    src: "{{ user.home }}/{{ dotfiles.destination }}/config/tmux/{{ item }}"
+    dest: "{{ user.home }}/.config/tmux/{{ item }}"
+    state: link
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
+  loop:
+    - tmux.conf
+    - tmux.reset.conf
+
+- name: Symlink tmux.conf to ~/.tmux.conf
+  file:
+    src: "{{ user.home }}/{{ dotfiles.destination }}/config/tmux/tmux.conf"
+    dest: "{{ user.home }}/.tmux.conf"
+    state: link
+    owner: "{{ user.name }}"
+    group: "{{ user.name }}"
