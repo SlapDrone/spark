@@ -1,0 +1,28 @@
+---
+- name: Install tmux
+  pacman:
+    name: tmux
+    state: present
+
+- name: Install fzf
+  pacman:
+    name: fzf
+    state: present
+
+- name: Install bat
+  pacman:
+    name: bat
+    state: present
+
+- name: Install zoxide
+  pacman:
+    name: zoxide
+    state: present
+
+- name: Install tmux plugin manager (tpm)
+  aur:
+    name:
+      - tmux-plugin-manager
+    user: "{{ user.name }}"
+  tags:
+    - aur

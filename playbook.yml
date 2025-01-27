@@ -97,6 +97,8 @@
     - { role: oomd, tags: ['oomd'] }
     - { role: f3, tags: ['f3'] }
     - { role: vopono, tags: ['vopono'] }
+    - { role: tmux, tags: ['tmux']}
+    # TODO: add uv 
     - { role: asus_blacklist_nouveau, tags: ['asus', 'blacklist_nouveau'] }
     - { role: asus_repo, tags: ['asus', 'repo'] }
     - { role: asusctl, tags: ['asus', 'asusctl'] }
