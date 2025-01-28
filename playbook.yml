@@ -100,6 +100,7 @@
     - { role: tmux, tags: ['tmux']}
     - { role: eza, tags: ['eza']}
     # TODO: add uv , obsidian
+    - { role: kde_obsidian_shortcut, tags: ['kde_obsidian_shortcut']}
     - { role: asus_blacklist_nouveau, tags: ['asus', 'blacklist_nouveau'] }
     - { role: asus_repo, tags: ['asus', 'repo'] }
     - { role: asusctl, tags: ['asus', 'asusctl'] }
