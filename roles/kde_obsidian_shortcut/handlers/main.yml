@@ -1,0 +1,12 @@
+---
+- name: Restart KDE Global Shortcuts
+  become: yes
+  become_user: "{{ ansible_user }}"
+  command: >
+    dbus-send
+    --session
+    --dest=org.kde.kglobalaccel
+    /component/org.kde.krunner
+    org.kde.kglobalaccel.Component.reparseConfiguration
+    string:org.kde.krunner
+  when: ansible_check_mode == False

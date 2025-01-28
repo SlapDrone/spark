@@ -1,0 +1,52 @@
+---
+- name: Ensure KDE CLI tools are installed
+  pacman:
+    name: kde-cli-tools
+    state: present
+  when: ansible_facts['os_family'] == "Archlinux"
+
+- name: Ensure Obsidian is installed
+  pacman:
+    name: obsidian
+    state: present
+  when: ansible_facts['os_family'] == "Archlinux"
+
+- name: Create custom shortcut for Obsidian
+  become: yes
+  become_user: "{{ user.name }}"
+  command: >
+    kwriteconfig5
+    --file {{ ansible_user_dir }}/.config/kglobalshortcutsrc
+    --group "Launch Obsidian"
+    --key "Launch Obsidian"
+    --value "Ctrl+Alt+O,none,obsidian"
+  args:
+    creates: "/home/{{ user.name }}/.config/kglobalshortcutsrc"
+
+- name: Get DBUS_SESSION_BUS_ADDRESS for the user
+  become: yes
+  become_user: "{{ user.name }}"
+  shell: >
+    cat /proc/$(pgrep -u {{ user.name }} plasmashell | head -n 1)/environ
+    | tr '\0' '\n'
+    | grep DBUS_SESSION_BUS_ADDRESS
+    | cut -d= -f2-
+  register: dbus_session_bus_address
+  changed_when: false
+
+- name: Reload KDE configuration
+  become: yes
+  become_user: "{{ user.name }}"
+  command: >
+    dbus-send
+    --session
+    --dest=org.kde.kglobalaccel
+    /component/khotkeys
+    org.kde.kglobalaccel.Component.reparseConfiguration
+    string:org.kde.krunner
+  environment:
+    DBUS_SESSION_BUS_ADDRESS: "{{ dbus_session_bus_address.stdout }}"
+  when: ansible_check_mode == False
+
+- name: Notify KDE to reload shortcuts
+  meta: flush_handlers
