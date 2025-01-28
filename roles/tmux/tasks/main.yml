@@ -14,10 +14,20 @@
     name: bat
     state: present
 
+# TODO: maybe move to another role?
 - name: Install zoxide
   pacman:
     name: zoxide
     state: present
+
+- name: Add zoxide to PATH
+  become: false
+  ansible.builtin.lineinfile:
+    path: "/home/{{ user.name }}/.zshrc"
+    line: 'eval "$(zoxide init zsh)"'
+    create: yes
+    state: present
+    insertafter: EOF
 
 - name: Install tmux plugin manager (tpm)
   aur:
