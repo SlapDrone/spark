@@ -1,0 +1,4 @@
+---
+- name: Restart shell
+  command: exec zsh
+  when: ansible_check_mode == False

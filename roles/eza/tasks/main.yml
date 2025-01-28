@@ -1,0 +1,31 @@
+---
+- name: Install eza
+  pacman:
+    name: eza
+    state: present
+    update_cache: yes
+
+- name: Ensure zsh-completions package is installed
+  pacman:
+    name: zsh-completions
+    state: present
+
+- name: Append aliases and functions to .zshrc
+  blockinfile:
+    path: "{{ ansible_user_dir }}/.zshrc"
+    block: |
+      # Eza
+      alias l="eza -l --icons --git -a"
+      alias lt="eza --tree --level=2 --long --icons --git"
+      alias ltree="eza --tree --level=2 --icons --git"
+
+      # navigation
+      cx() { cd "$@" && l; }
+      fcd() { cd "$(find . -type d -not -path '*/.*' | fzf)" && l; }
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - EZA ALIASES AND FUNCTIONS"
+
+- name: Source .zshrc to apply changes
+  command: source {{ ansible_user_dir }}/.zshrc
+  args:
+    executable: /bin/zsh
+  when: ansible_check_mode == False
